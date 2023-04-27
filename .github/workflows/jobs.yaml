@@ -24,23 +24,9 @@ jobs:
     - name: Compilation
       run: npm ci
       
-  sonar:
-    name: sonar
-    needs: build
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Git Checkout
-      uses: actions/checkout@v3.3.0
-      
-    - name: SonarCloud Analysis
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_KEY }}
-      
   test:
     name: test
-    needs: sonar
+    needs: build
     runs-on: ubuntu-latest
     
     steps:
