@@ -1,0 +1,9 @@
+build
+node_modules
+public
+README.md
+*.config.*
+*.yml
+
+.scannerwork
+helm-chart

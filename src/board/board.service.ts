@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { Board } from './entities/board.entity';
+import { CreateBoardDto } from './dto/create-board.dto';
 
 @Injectable()
 export class BoardService {
-  private readonly boards: Board[] = [];
+  constructor(@InjectModel(Board.name) private boardModel: Model<Board>) {}
 
-  create(board: Board) {
-    this.boards.push(board);
+  async create(createBoardDto: CreateBoardDto): Promise<Board> {
+    const createdCat = new this.boardModel(createBoardDto);
+    return createdCat.save();
   }
 
-  findAll(): Board[] {
-    return this.boards;
+  async findAll(): Promise<Board[]> {
+    return this.boardModel.find().exec();
   }
 }
