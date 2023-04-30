@@ -11,7 +11,6 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot({ envFilePath: [BD_PATH_ENV], isGlobal: true }),
     MongooseModule.forRoot(process.env.DATABASE_URL),
     BoardModule,
-    UserModule,
     AuthModule,
   ],
 })
