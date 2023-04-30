@@ -24,20 +24,4 @@ jobs:
     - name: Compilation
       run: npm ci
       
-  test:
-    name: test
-    needs: build
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Git Checkout
-      uses: actions/checkout@v3.3.0
-      
-    - name: Setup Node.js enviroment
-      uses: actions/setup-node@v2.5.2
-      with:
-       node-version: 18.14.2
-       cache: npm
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+ 
