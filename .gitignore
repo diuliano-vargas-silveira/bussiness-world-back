@@ -36,4 +36,4 @@ lerna-debug.log*
 
 # ENV
 
-.url-bd.env
+.env

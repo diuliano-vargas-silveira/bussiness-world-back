@@ -1,9 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { User } from './entities/user.entity';
-import { Model } from 'mongoose';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  private readonly users = [
+    {
+      email: 'john',
+      name: 'changeme',
+    },
+    {
+      email: 'maria',
+      name: 'guess',
+    },
+  ];
+
+  async findOne(email: string): Promise<object | undefined> {
+    return this.users.find((user) => user.email === email);
+  }
 }
