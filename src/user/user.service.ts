@@ -13,7 +13,7 @@ export class UserService {
     },
   ];
 
-  async findOne(email: string): Promise<any | undefined> {
+  async findOne(email: string): Promise<object | undefined> {
     return this.users.find((user) => user.email === email);
   }
 }
