@@ -1,9 +1,16 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
+
 import { SignUpDto } from './dto/sign-up.dto';
+import { SignInDto } from './dto/sign-in.dto';
 
 const prisma = new PrismaClient();
 
@@ -14,19 +21,23 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  // TODO fix name and email problem
-  //  async signIn(email: string, pass: string): Promise<any> {
-  //  const user = await this.userService.findOne(email);
-  //if (user?.name !== pass) {
-  //  throw new UnauthorizedException();
-  // }
+  async signIn(req: SignInDto): Promise<string | { access_token: string }> {
+    const user: User = await this.userService.findOne(req.email);
 
-  //const payload = { email: user.email };
+    if (user === null) {
+      throw new BadRequestException('Usuário não cadastrado.');
+    }
 
-  // return {
-  // access_token: await this.jwtService.signAsync(payload),
-  //};
-  //}
+    if (user?.password !== req.password) {
+      throw new UnauthorizedException('Email ou senha incorretos.');
+    }
+
+    const payload = { email: user.email };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
+  }
 
   async signUp(req: SignUpDto) {
     const user = await prisma.user.create({
